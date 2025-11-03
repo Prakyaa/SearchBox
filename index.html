@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SearchBox - FormSubmit</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f9;display:flex;justify-content:center;align-items:flex-start;padding-top:80px}
+    .card{background:#fff;padding:20px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.06);width:380px}
+    input[type="text"]{width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;font-size:16px}
+    button{margin-top:10px;padding:10px 14px;border-radius:6px;border:none;cursor:pointer;font-weight:600}
+    #result{margin-top:14px;font-size:16px}
+    .note{font-size:12px;color:#666;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h3>Search / Submit</h3>
+
+    <!-- Replace youremail@example.com with your email -->
+    <form id="searchForm"
+          action="https://formsubmit.co/youremail@example.com"
+          method="POST"
+          target="_blank" autocomplete="off">
+
+      <!-- optional: disable FormSubmit captcha -->
+      <input type="hidden" name="_captcha" value="false">
+
+      <input type="text" id="searchInput" name="search" placeholder="Type and press Enter" required>
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="result" aria-live="polite"></div>
+    <div class="note">Submission opens FormSubmit in a new tab; this page stays visible for your screenshot.</div>
+  </div>
+
+  <script>
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('searchInput');
+    const result = document.getElementById('result');
+
+    // Show submitted input immediately (for proof/screenshot)
+    form.addEventListener('submit', (e) => {
+      const v = input.value.trim();
+      if(!v){ e.preventDefault(); result.innerHTML = '<em>Type something first</em>'; return; }
+      result.innerHTML = 'You searched for: <strong>' + escapeHtml(v) + '</strong>';
+      // Let the form submit normally (opens in new tab)
+    });
+
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+  </script>
+</body>
+</html>
